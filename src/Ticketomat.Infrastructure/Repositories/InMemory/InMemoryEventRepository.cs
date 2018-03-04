@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Ticketomat.Core.Domain;
 using Ticketomat.Core.Repositories;
 
-namespace Ticketomat.Infrastructure.Repositories
+namespace Ticketomat.Infrastructure.Repositories.InMemory
 {
     public class InMemoryEventRepository : IEventRepository
     {
@@ -14,7 +14,8 @@ namespace Ticketomat.Infrastructure.Repositories
             => await Task.FromResult(_events.SingleOrDefault(x => x.Id == id));
 
         public async Task<Event> GetAsync(string name)
-            => await Task.FromResult(_events.SingleOrDefault(x => x.Name.ToLowerInvariant() == name.ToLowerInvariant()));
+            => await Task.FromResult(_events.SingleOrDefault(x =>
+            x.Name.ToLowerInvariant() == name.ToLowerInvariant()));
 
         public async Task<IEnumerable<Event>> BrowseAsync(string name = "")
             {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Ticketomat.Core.Domain;
 using Ticketomat.Core.Repositories;
 
-namespace Ticketomat.Infrastructure.Repositories
+namespace Ticketomat.Infrastructure.Repositories.InMemory
 {
     public class InMemoryUserRepository : IUserRepository
     {
