@@ -5,7 +5,7 @@ using Ticketomat.Infrastructure.DTO;
 
 namespace Ticketomat.Infrastructure.Mappers
 {
-    public static class AutoMapperCOnfig
+    public static class AutoMapperConfig
     {
         public static IMapper Initialize()
             => new MapperConfiguration(cfg =>
