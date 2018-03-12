@@ -28,6 +28,7 @@ namespace Ticketomat.Api.Controllers
             var eventId = Guid.NewGuid();
             await _eventService.CreateAsync(eventId, command.Name,
                 command.Description, command.StartDate, command.EndDate);
+            await _eventService.AddTicketsAsync(eventId, command.Tickets, command.Price);
             return Created($"/events/{eventId}", null);
         }
     }
