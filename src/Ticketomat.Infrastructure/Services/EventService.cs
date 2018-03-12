@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Ticketomat.Core.Domain;
 using Ticketomat.Core.Repositories;
 using Ticketomat.Infrastructure.DTO;
 
@@ -32,11 +33,17 @@ namespace Ticketomat.Infrastructure.Services
             var events = await _eventRepository.BrowseAsync(name);
             return _mapper.Map<IEnumerable<EventDTO>>(events);
         }
-        //TODO belowe later
         public async Task CreateAsync(Guid id, string name, string description, DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
-        }
+            var @event = await _eventRepository.GetAsync(name);
+            if(@event != null)
+            {
+                throw new Exception($"Event named: '{name}' arleady exist.");
+            }
+            @event = new Event(id, name, description, startDate, endDate);
+            await _eventRepository.AddAsync(@event);
+         }
+        //TODO belowe later
         public async Task AddTicketsAsync(Guid eventId, int amount, decimal price)
         {
             throw new NotImplementedException();
