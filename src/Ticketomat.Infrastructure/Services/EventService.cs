@@ -54,11 +54,23 @@ namespace Ticketomat.Infrastructure.Services
             @event.AddTickets(amount, price);
             await _eventRepository.UpdateAsync(@event);
         }
-        //TODO below
         public async Task UpdateAsync(Guid id, string name, string description)
         {
-            throw new NotImplementedException();
+            var @event = await _eventRepository.GetAsync(name);
+            if(@event != null)
+            {
+                throw new Exception($"Event named: '{name}' arleady exist.");
+            }
+            @event = await _eventRepository.GetAsync(id);
+            if(@event == null)
+            {
+                throw new Exception($"Event with id: '{id}' does not exist.");
+            }
+            @event.SetName(name);
+            @event.SetDescription(description);
+            await _eventRepository.UpdateAsync(@event);
         }
+        //TODO below
         public async Task DeleteAsync(Guid id)
         {
             throw new NotImplementedException();

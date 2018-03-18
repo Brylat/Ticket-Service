@@ -31,5 +31,12 @@ namespace Ticketomat.Api.Controllers
             await _eventService.AddTicketsAsync(eventId, command.Tickets, command.Price);
             return Created($"/events/{eventId}", null);
         }
+
+        [HttpPut("{eventId}")]
+        public async Task<IActionResult> Put(Guid eventId, [FromBody]UpdateEvent command)
+        {
+            await _eventService.UpdateAsync(eventId, command.Name, command.Description);
+            return NoContent();
+        }
     }
 }

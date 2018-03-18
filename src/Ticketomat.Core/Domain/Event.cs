@@ -18,14 +18,33 @@ namespace Ticketomat.Core.Domain
 
         public Event(Guid id, string name, string description, DateTime startDate, DateTime endDate) {
             Id = id;
-            Name = name;
-            Description = description;
+            SetName(name);
+            SetDescription(description);
             StartDate = startDate;
             EndDate = endDate;
             CreatedAt = DateTime.UtcNow;
             UpdateDate = DateTime.UtcNow;
         }
 
+        public void SetName(string name)
+        {
+            if(string.IsNullOrWhiteSpace(name))
+            {
+                throw new Exception($"Event with id: '{Id}' an not have an empty name");
+            }
+            Name = name;
+            UpdateDate =  DateTime.UtcNow;
+        }
+
+        public void SetDescription(string description)
+        {
+            if(string.IsNullOrWhiteSpace(description))
+            {
+                throw new Exception($"Event with id: '{Id}' an not have an empty name");
+            }
+            Description = description;
+            UpdateDate =  DateTime.UtcNow;
+        }
         public void AddTickets(int amount, decimal price){
             var seating = _tickets.Count + 1;
             for(var i=0; i<amount; i++){
