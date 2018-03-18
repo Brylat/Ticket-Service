@@ -38,5 +38,12 @@ namespace Ticketomat.Api.Controllers
             await _eventService.UpdateAsync(eventId, command.Name, command.Description);
             return NoContent();
         }
+
+        [HttpDelete("{eventId}")]
+        public async Task<IActionResult> Delete(Guid eventId)
+        {
+            await _eventService.DeleteAsync(eventId);
+            return NoContent();
+        }
     }
 }
