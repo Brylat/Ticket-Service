@@ -6,6 +6,7 @@ using AutoMapper;
 using Ticketomat.Core.Domain;
 using Ticketomat.Core.Repositories;
 using Ticketomat.Infrastructure.DTO;
+using Ticketomat.Infrastructure.Extensions;
 
 namespace Ticketomat.Infrastructure.Services
 {
@@ -46,11 +47,7 @@ namespace Ticketomat.Infrastructure.Services
         
         public async Task AddTicketsAsync(Guid eventId, int amount, decimal price)
         {
-            var @event = await _eventRepository.GetAsync(eventId);
-            if(@event == null)
-            {
-                throw new Exception($"Event with id: '{eventId}' does not exist.");
-            }
+            var @event = await _eventRepository.GetOrFailAsync(eventId);
             @event.AddTickets(amount, price);
             await _eventRepository.UpdateAsync(@event);
         }
@@ -61,11 +58,7 @@ namespace Ticketomat.Infrastructure.Services
             {
                 throw new Exception($"Event named: '{name}' arleady exist.");
             }
-            @event = await _eventRepository.GetAsync(id);
-            if(@event == null)
-            {
-                throw new Exception($"Event with id: '{id}' does not exist.");
-            }
+            @event = await _eventRepository.GetOrFailAsync(id);
             @event.SetName(name);
             @event.SetDescription(description);
             await _eventRepository.UpdateAsync(@event);
