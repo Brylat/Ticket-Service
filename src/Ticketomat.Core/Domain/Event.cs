@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ticketomat.Core.Domain
 {
@@ -13,7 +14,8 @@ namespace Ticketomat.Core.Domain
         public DateTime EndDate { get; protected set; }
         public DateTime UpdateDate { get; protected set; }
         public IEnumerable<Ticket> Tickets => _tickets;
-
+        public IEnumerable<Ticket> PurchasedTickets => Tickets.Where(x => x.Purchased);
+        public IEnumerable<Ticket> AwalibleTickets => Tickets.Except(PurchasedTickets);
         protected Event() {}
 
         public Event(Guid id, string name, string description, DateTime startDate, DateTime endDate) {

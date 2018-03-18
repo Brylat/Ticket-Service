@@ -19,15 +19,15 @@ namespace Ticketomat.Infrastructure.Services
             _eventRepository = eventRepository;
             _mapper = mappper;
         }
-        public async Task<EventDTO> GetAsync(Guid id)
+        public async Task<EventDetailsDTO> GetAsync(Guid id)
         {
             var @event = await _eventRepository.GetAsync(id);
-            return _mapper.Map<EventDTO>(@event);
+            return _mapper.Map<EventDetailsDTO>(@event);
         }
-        public async Task<EventDTO> GetAsync(string name)
+        public async Task<EventDetailsDTO> GetAsync(string name)
         {
             var @event = await _eventRepository.GetAsync(name);
-            return _mapper.Map<EventDTO>(@event);
+            return _mapper.Map<EventDetailsDTO>(@event);
         }
         public async Task<IEnumerable<EventDTO>> BrowseAsync(string name = null)
         {
