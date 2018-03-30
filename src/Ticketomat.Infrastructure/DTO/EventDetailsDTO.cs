@@ -4,6 +4,6 @@ namespace Ticketomat.Infrastructure.DTO
 {
     public class EventDetailsDTO : EventDTO
     {
-        public IEnumerable<TicketDTO> Tiskets { get; set; }
+        public IEnumerable<TicketDTO> Tickets { get; set; }
     }
 }
