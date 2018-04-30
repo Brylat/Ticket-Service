@@ -34,6 +34,7 @@ namespace Ticketomat.Api {
             services.AddScoped<IUserRepository, InMemoryUserRepository> ();
             services.AddScoped<IEventService, EventService> ();
             services.AddScoped<IUserServices, UserServices> ();
+            services.AddSingleton<IJwtHandler, JwtHandler> ();
             services.AddSingleton (AutoMapperConfig.Initialize ());
 
             services.AddAuthentication (JwtBearerDefaults.AuthenticationScheme)

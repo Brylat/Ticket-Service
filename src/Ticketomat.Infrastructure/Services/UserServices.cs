@@ -2,15 +2,18 @@ using System;
 using System.Threading.Tasks;
 using Ticketomat.Core.Domain;
 using Ticketomat.Core.Repositories;
+using Ticketomat.Infrastructure.DTO;
 
 namespace Ticketomat.Infrastructure.Services
 {
     public class UserServices : IUserServices
     {
         private readonly IUserRepository _userRepository;
-        public UserServices(IUserRepository userRepository)
+        private readonly IJwtHandler _jwtHandler;
+        public UserServices(IUserRepository userRepository, IJwtHandler jwtHandler)
         {
             _userRepository = userRepository;
+            _jwtHandler = jwtHandler;
         }
 
 
@@ -26,7 +29,7 @@ namespace Ticketomat.Infrastructure.Services
         }
 
 
-        public async Task Login(string email, string password)
+        public async Task<TokenDTO> LoginAsync(string email, string password)
         {
             var user = await _userRepository.GetAsync(email);
             if(user == null)
@@ -37,6 +40,15 @@ namespace Ticketomat.Infrastructure.Services
             {
                 throw new Exception("Invalid credential.");
             }
+
+            var jwt = _jwtHandler.CreateToken(user.Id, user.Role);
+
+            return new TokenDTO
+            {
+                Token = jwt.Token,
+                Expires =  jwt.Expires,
+                role = user.Role
+            };
 
         }
     }

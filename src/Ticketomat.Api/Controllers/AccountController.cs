@@ -33,8 +33,6 @@ namespace Ticketomat.Api.Controllers
         }
         [HttpGet("login")]
         public async Task<ActionResult> Post(Login command)
-        {
-            throw new NotImplementedException();
-        }
+            => Json(await _userServices.LoginAsync(command.Email, command.Password));
     }
 }
