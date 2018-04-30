@@ -17,6 +17,7 @@ using Ticketomat.Core.Repositories;
 using Ticketomat.Infrastructure.Mappers;
 using Ticketomat.Infrastructure.Repositories.InMemory;
 using Ticketomat.Infrastructure.Services;
+using Ticketomat.Infrastructure.Settings;
 
 namespace Ticketomat.Api {
     public class Startup {
@@ -30,12 +31,14 @@ namespace Ticketomat.Api {
         public void ConfigureServices (IServiceCollection services) {
             services.AddMvc ()
                 .AddJsonOptions (x => x.SerializerSettings.Formatting = Formatting.Indented);
+            services.AddAuthorization();
             services.AddScoped<IEventRepository, InMemoryEventRepository> ();
             services.AddScoped<IUserRepository, InMemoryUserRepository> ();
             services.AddScoped<IEventService, EventService> ();
             services.AddScoped<IUserServices, UserServices> ();
             services.AddSingleton<IJwtHandler, JwtHandler> ();
             services.AddSingleton (AutoMapperConfig.Initialize ());
+            services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddAuthentication (JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer (options => {
@@ -43,6 +46,7 @@ namespace Ticketomat.Api {
                     ValidateIssuer = true,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
+                    ValidateAudience = false,
                     ValidIssuer = Configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey (Encoding.UTF8.GetBytes (Configuration["Jwt:Key"]))
                     };
@@ -51,11 +55,10 @@ namespace Ticketomat.Api {
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IHostingEnvironment env) {
+            app.UseAuthentication();
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             }
-
-            app.UseAuthentication ();
             app.UseMvc();
         }
     }

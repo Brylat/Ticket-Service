@@ -14,6 +14,7 @@ namespace Ticketomat.Infrastructure.Mappers
                     .ForMember(x => x.TicketCount, m => m.MapFrom(p => p.Tickets.Count()));
                 cfg.CreateMap<Event, EventDetailsDTO>();
                 cfg.CreateMap<Ticket, TicketDTO>();
+                cfg.CreateMap<User, AccountDTO>();
             })
             .CreateMapper();
     }

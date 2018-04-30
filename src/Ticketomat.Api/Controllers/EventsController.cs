@@ -7,7 +7,7 @@ using Ticketomat.Infrastructure.Services;
 namespace Ticketomat.Api.Controllers
 {
     [Route("[controller]")]
-    public class EventsController : Controller
+    public class EventsController : ApiControlerBase
     {
         private readonly IEventService _eventService;
         public EventsController(IEventService eventService)

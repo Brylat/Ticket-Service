@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using Ticketomat.Core.Domain;
 using Ticketomat.Core.Repositories;
 using Ticketomat.Infrastructure.DTO;
+using Ticketomat.Infrastructure.Extensions;
 
 namespace Ticketomat.Infrastructure.Services
 {
@@ -10,10 +12,12 @@ namespace Ticketomat.Infrastructure.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IJwtHandler _jwtHandler;
-        public UserServices(IUserRepository userRepository, IJwtHandler jwtHandler)
+        private readonly IMapper _mapper;
+        public UserServices(IUserRepository userRepository, IJwtHandler jwtHandler, IMapper mappper)
         {
             _userRepository = userRepository;
             _jwtHandler = jwtHandler;
+            _mapper = mappper;
         }
 
 
@@ -50,6 +54,12 @@ namespace Ticketomat.Infrastructure.Services
                 role = user.Role
             };
 
+        }
+
+        public async Task<AccountDTO> GetAcountAsync(Guid userId)
+        {
+            var user = await _userRepository.GetOrFailAsync(userId);
+            return _mapper.Map<AccountDTO>(user);
         }
     }
 }

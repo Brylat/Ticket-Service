@@ -27,8 +27,8 @@ namespace Ticketomat.Infrastructure.Services
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, now.ToTimestamp().ToString())
             };
-
-            var expires = now.AddMinutes(Int32.Parse(_configuration["Jwt:ExpiryMinutes"]));
+            var expiryMinutes = Int32.Parse(_configuration["Jwt:ExpiryMinutes"]);
+            var expires = now.AddMinutes(expiryMinutes);
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey (Encoding.UTF8.GetBytes (_configuration["Jwt:Key"])),
                 SecurityAlgorithms.HmacSha256);
 
