@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Ticketomat.Api.Framework;
 using Ticketomat.Core.Repositories;
 using Ticketomat.Infrastructure.Mappers;
 using Ticketomat.Infrastructure.Repositories.InMemory;
@@ -60,6 +61,7 @@ namespace Ticketomat.Api {
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             }
+            app.UseErrorHandler();
             app.UseMvc();
         }
     }
