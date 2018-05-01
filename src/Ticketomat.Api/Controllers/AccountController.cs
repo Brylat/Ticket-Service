@@ -11,10 +11,12 @@ namespace Ticketomat.Api.Controllers
     public class AccountController : ApiControlerBase
     {
         private readonly IUserServices _userServices;
+        private readonly ITicketService _ticketServices;
 
-        public AccountController(IUserServices userServices)
+        public AccountController(IUserServices userServices, ITicketService ticketServices)
         {
             _userServices = userServices;
+            _ticketServices = ticketServices;
         }
         [HttpGet]
         [Authorize]
@@ -22,10 +24,10 @@ namespace Ticketomat.Api.Controllers
             => Json(await _userServices.GetAcountAsync(UserId));
 
         [HttpGet("tickets")]
+        [Authorize]
         public async Task<ActionResult> GetTickets()
-        {
-            throw new NotImplementedException();
-        }
+            => Json(await _ticketServices.GetForUserAsync(UserId));
+
         [HttpPost("register")]
         public async Task<ActionResult> Post([FromBody]Register command)
         {

@@ -19,5 +19,27 @@ namespace Ticketomat.Core.Domain
             Seating = seating;
             Price = price;
         }
+
+        public void Purchase(User user)
+        {
+            if(Purchased)
+            {
+                throw new Exception($"Ticket was arleady purchuased by user: '{UserName}' at: {Purchased}" );
+            }
+            UserId = user.Id;
+            UserName = user.Name;
+            PurchasedAt = DateTime.UtcNow;
+        }
+
+        public void Cancel()
+        {
+            if(!Purchased)
+            {
+                throw new Exception($"Ticket was not purchuased and can not be canceled." );
+            }
+            UserId = null;
+            UserName = null;
+            PurchasedAt = null;
+        }
     }
 }

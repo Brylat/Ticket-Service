@@ -10,10 +10,10 @@ namespace Ticketomat.Infrastructure.Mappers
         public static IMapper Initialize()
             => new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Event, EventDTO>()
-                    .ForMember(x => x.TicketCount, m => m.MapFrom(p => p.Tickets.Count()));
+                cfg.CreateMap<Event, EventDTO>();
                 cfg.CreateMap<Event, EventDetailsDTO>();
                 cfg.CreateMap<Ticket, TicketDTO>();
+                cfg.CreateMap<Ticket, TicketDetailsDTO>();
                 cfg.CreateMap<User, AccountDTO>();
             })
             .CreateMapper();

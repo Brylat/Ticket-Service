@@ -30,12 +30,13 @@ namespace Ticketomat.Api {
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices (IServiceCollection services) {
             services.AddMvc ()
-                .AddJsonOptions (x => x.SerializerSettings.Formatting = Formatting.Indented);
-            services.AddAuthorization();
+                .AddJsonOptions (y => y.SerializerSettings.Formatting = Formatting.Indented);
+            services.AddAuthorization(x => x.AddPolicy("HasAdminRole", p => p.RequireRole("admin")));
             services.AddScoped<IEventRepository, InMemoryEventRepository> ();
             services.AddScoped<IUserRepository, InMemoryUserRepository> ();
             services.AddScoped<IEventService, EventService> ();
             services.AddScoped<IUserServices, UserServices> ();
+            services.AddScoped<ITicketService, TicketService> ();
             services.AddSingleton<IJwtHandler, JwtHandler> ();
             services.AddSingleton (AutoMapperConfig.Initialize ());
             services.AddSingleton<IConfiguration>(Configuration);

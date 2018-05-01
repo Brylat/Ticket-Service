@@ -15,7 +15,7 @@ namespace Ticketomat.Core.Domain
         public DateTime UpdateDate { get; protected set; }
         public IEnumerable<Ticket> Tickets => _tickets;
         public IEnumerable<Ticket> PurchasedTickets => Tickets.Where(x => x.Purchased);
-        public IEnumerable<Ticket> AwalibleTickets => Tickets.Except(PurchasedTickets);
+        public IEnumerable<Ticket> AvalibleTickets => Tickets.Except(PurchasedTickets);
         protected Event() {}
 
         public Event(Guid id, string name, string description, DateTime startDate, DateTime endDate) {
@@ -54,6 +54,29 @@ namespace Ticketomat.Core.Domain
                 seating++;
             }
         }
+
+        public void PurchaseTicket(User user, int amount)
+        {
+            if(AvalibleTickets.Count() < amount)
+            {
+                throw new Exception($"Not enought avalible tickets to puarchse");
+            }
+            var tickets = AvalibleTickets.Take(amount);
+            tickets.ToList().ForEach(x => x.Purchase(user));
+        }
+
+        public void CancelPurchaseTicket(User user, int amount)
+        {
+            var tickets = GetTicketsPurchasedByUser(user);
+            if(tickets.Count() < amount)
+            {
+                throw new Exception($"Not enough purchased ticket to be canceled.");
+            }
+            tickets.Take(amount).ToList().ForEach(x => x.Cancel());
+        }
+
+        public IEnumerable<Ticket> GetTicketsPurchasedByUser (User user)
+            => PurchasedTickets.Where(x => x.UserId == user.Id);
     }
 
 }

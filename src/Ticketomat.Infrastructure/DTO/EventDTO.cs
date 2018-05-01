@@ -10,7 +10,9 @@ namespace Ticketomat.Infrastructure.DTO
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime UpdateDate { get; set; }
-        public int TicketCount { get; set; }
+        public int TicketsCount { get; set; }
+        public int PurchasedTicketsCount { get; set; }
+        public int AvalibleTicketsCount { get; set; }
 
     }
 }
