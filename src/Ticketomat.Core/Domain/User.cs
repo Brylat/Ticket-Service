@@ -15,11 +15,48 @@ namespace Ticketomat.Core.Domain
         public User(Guid id, string role, string name, string email, string password)
         {
             Id = id;
-            Role = role;
-            Name = name;
-            Email = email;
-            Password = password;
+            SetRole(role);
+            SetName(name);
+            SetEmail(email);
+            SetPassword(password);
             CreateAt = DateTime.UtcNow;
         }
+
+        public void SetName(string name)
+        {
+            if(string.IsNullOrWhiteSpace(name))
+            {
+                throw new Exception($"User with id: '{Id}' an not have an empty name.");
+            }
+            Name = name;
+        }
+
+        public void SetEmail(string email)
+        {
+            if(string.IsNullOrWhiteSpace(email))
+            {
+                throw new Exception($"User with id: '{Id}' an not have an empty email.");
+            }
+            Email = email;
+        }
+
+        public void SetRole(string role)
+        {
+            if(string.IsNullOrWhiteSpace(role))
+            {
+                throw new Exception($"User with id: '{Id}' an not have an empty role.");
+            }
+            Role = role;
+        }
+
+        public void SetPassword(string password)
+        {
+            if(string.IsNullOrWhiteSpace(password))
+            {
+                throw new Exception($"User with id: '{Id}' an not have an empty password.");
+            }
+            Password = password;
+        }
+
     }
 }
