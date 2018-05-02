@@ -13,5 +13,8 @@ namespace Ticketomat.Core.Repositories
         Task AddAsync(Event @event);
         Task UpdateAsync(Event @event);
         Task DeleteAsync(Event @event);
+        Task AddTickets(IEnumerable<Ticket> tickets);
+        Task PurchaseTicket(IEnumerable<Ticket> tickets, Guid userId);
+        Task CanceledTicket(IEnumerable<Ticket> tickets);
     }
 }

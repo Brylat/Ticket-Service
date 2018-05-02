@@ -42,10 +42,24 @@ namespace Ticketomat.Infrastructure.Repositories.InMemory
             _events.Remove(@event);
             await Task.CompletedTask;
         }
-        //TODO when impement database
         public async Task UpdateAsync(Event @event)
         {
            await Task.CompletedTask;
+        }
+
+        public Task AddTickets(IEnumerable<Ticket> tickets)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task PurchaseTicket(IEnumerable<Ticket> tickets, Guid userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CanceledTicket(IEnumerable<Ticket> tickets)
+        {
+            throw new NotImplementedException();
         }
     }
 }

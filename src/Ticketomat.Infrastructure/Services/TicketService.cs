@@ -33,16 +33,16 @@ namespace Ticketomat.Infrastructure.Services
         {
             var user = await _userRepository.GetOrFailAsync(userId);
             var @event = await _eventRepository.GetOrFailAsync(eventId);
-            @event.PurchaseTicket(user, amount);
-            await _eventRepository.UpdateAsync(@event);
+            var tickets = @event.PurchaseTicket(user, amount);
+            await _eventRepository.PurchaseTicket(tickets, userId);
         }
 
         public async Task CancelAsync(Guid userId, Guid eventId, int amount)
         {
             var user = await _userRepository.GetOrFailAsync(userId);
             var @event = await _eventRepository.GetOrFailAsync(eventId);
-            @event.CancelPurchaseTicket(user, amount);
-            await _eventRepository.UpdateAsync(@event);
+            var tickets = @event.CancelPurchaseTicket(user, amount);
+            await _eventRepository.CanceledTicket(tickets);
         }
 
         public async Task<IEnumerable<TicketDetailsDTO>> GetForUserAsync(Guid userId)

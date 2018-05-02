@@ -16,7 +16,7 @@ namespace Ticketomat.Api.Controllers
             _eventService = eventService;
         }
 
-        [HttpGet]
+        [HttpGet("{name}")]
         public async Task<IActionResult> GetTask(string name)
         {
             var events = await _eventService.BrowseAsync(name);

@@ -48,8 +48,8 @@ namespace Ticketomat.Infrastructure.Services
         public async Task AddTicketsAsync(Guid eventId, int amount, decimal price)
         {
             var @event = await _eventRepository.GetOrFailAsync(eventId);
-            @event.AddTickets(amount, price);
-            await _eventRepository.UpdateAsync(@event);
+            var newTickets = @event.AddTickets(amount, price);
+            await _eventRepository.AddTickets(newTickets);
         }
         public async Task UpdateAsync(Guid id, string name, string description)
         {

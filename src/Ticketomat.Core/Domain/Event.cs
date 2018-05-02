@@ -56,25 +56,36 @@ namespace Ticketomat.Core.Domain
             Description = description;
             UpdateDate =  DateTime.UtcNow;
         }
-        public void AddTickets(int amount, decimal price){
+        public IEnumerable<Ticket> AddTickets(int amount, decimal price){
             var seating = _tickets.Count + 1;
+            var newTickets = new List<Ticket>();
             for(var i=0; i<amount; i++){
-                _tickets.Add(new Ticket(this, seating, price));
+                newTickets.Add(new Ticket(this, seating, price));
                 seating++;
             }
+            _tickets.UnionWith(newTickets);
+            return newTickets;
         }
 
-        public void PurchaseTicket(User user, int amount)
+        public void AddTicketsCollection(IEnumerable<Ticket> tickets){
+            _tickets.UnionWith(tickets);
+        }
+
+        public IEnumerable<Ticket> PurchaseTicket(User user, int amount)
         {
             if(AvalibleTickets.Count() < amount)
             {
                 throw new Exception($"Not enought avalible tickets to puarchse");
             }
-            var tickets = AvalibleTickets.Take(amount);
-            tickets.ToList().ForEach(x => x.Purchase(user));
+            var tickets = _tickets.Where(x => x.Purchased == false).Take(amount);
+            foreach(var ticket in tickets)
+            {
+                ticket.Purchase(user);
+            }
+            return tickets;
         }
 
-        public void CancelPurchaseTicket(User user, int amount)
+        public IEnumerable<Ticket> CancelPurchaseTicket(User user, int amount)
         {
             var tickets = GetTicketsPurchasedByUser(user);
             if(tickets.Count() < amount)
@@ -82,6 +93,7 @@ namespace Ticketomat.Core.Domain
                 throw new Exception($"Not enough purchased ticket to be canceled.");
             }
             tickets.Take(amount).ToList().ForEach(x => x.Cancel());
+            return tickets;
         }
 
         public IEnumerable<Ticket> GetTicketsPurchasedByUser (User user)

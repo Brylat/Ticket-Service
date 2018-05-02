@@ -24,7 +24,7 @@ namespace Ticketomat.Core.Domain
         {
             if(Purchased)
             {
-                throw new Exception($"Ticket was arleady purchuased by user: '{UserName}' at: {Purchased}" );
+                throw new Exception($"Ticket was arleady purchuased by user: '{UserName}' at: {PurchasedAt}" );
             }
             UserId = user.Id;
             UserName = user.Name;

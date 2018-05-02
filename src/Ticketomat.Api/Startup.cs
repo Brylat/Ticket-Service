@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using Ticketomat.Api.Framework;
 using Ticketomat.Core.Repositories;
 using Ticketomat.Infrastructure.Mappers;
+using Ticketomat.Infrastructure.Repositories;
 using Ticketomat.Infrastructure.Repositories.InMemory;
 using Ticketomat.Infrastructure.Services;
 using Ticketomat.Infrastructure.Settings;
@@ -33,8 +34,8 @@ namespace Ticketomat.Api {
             services.AddMvc ()
                 .AddJsonOptions (y => y.SerializerSettings.Formatting = Formatting.Indented);
             services.AddAuthorization(x => x.AddPolicy("HasAdminRole", p => p.RequireRole("admin")));
-            services.AddScoped<IEventRepository, InMemoryEventRepository> ();
-            services.AddScoped<IUserRepository, InMemoryUserRepository> ();
+            services.AddScoped<IEventRepository, DatabaseEventRepository> ();
+            services.AddScoped<IUserRepository, DatabaseUserRepository> ();
             services.AddScoped<IEventService, EventService> ();
             services.AddScoped<IUserServices, UserServices> ();
             services.AddScoped<ITicketService, TicketService> ();
