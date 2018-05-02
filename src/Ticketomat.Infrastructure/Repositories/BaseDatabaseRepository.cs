@@ -8,7 +8,7 @@ namespace Ticketomat.Infrastructure.Repositories
         protected IDbConnection con; 
         public BaseDatabaseRepository()
         {
-            string connectionString = "Data Source=brylat.nazwa.pl;Initial Catalog=Ticketomat;Persist Security Info=True;User ID=SA;Password=Bryl@t4589";  
+            string connectionString = "Data Source=brylat.nazwa.pl;Initial Catalog=Ticketomat;Persist Security Info=True;User ID=ticketomat;Password=Ticketom@t45";  
             con = new SqlConnection(connectionString); 
         }
     }
