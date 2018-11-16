@@ -19,7 +19,6 @@ using Ticketomat.Infrastructure.Mappers;
 using Ticketomat.Infrastructure.Repositories;
 using Ticketomat.Infrastructure.Repositories.InMemory;
 using Ticketomat.Infrastructure.Services;
-using Ticketomat.Infrastructure.Settings;
 
 namespace Ticketomat.Api {
     public class Startup {
